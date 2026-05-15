@@ -13,5 +13,11 @@ DELETE /notes/{id}
 GET    /notes/search?q=
 
 ## OVERRIDE
-PATCH  /notes/{id}/mark-sensitive
-PATCH  /notes/{id}/mark-general
+PATCH /notes/{id}
+{
+  "is_sensitive": true
+}
+PATCH /notes/{id}
+{
+  "is_sensitive": false
+}
