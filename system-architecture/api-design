@@ -1,0 +1,17 @@
+## AUTH
+POST   /auth/register
+POST   /auth/login
+
+## NOTES
+POST   /notes
+GET    /notes
+GET    /notes/{id}
+PUT    /notes/{id}
+DELETE /notes/{id}
+
+## SEARCH
+GET    /notes/search?q=
+
+## OVERRIDE
+PATCH  /notes/{id}/mark-sensitive
+PATCH  /notes/{id}/mark-general
