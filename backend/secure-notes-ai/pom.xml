@@ -83,6 +83,21 @@
 			<artifactId>spring-boot-starter-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Core LangChain4j Spring Boot Starter for AI Services (@AiService) -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-spring-boot-starter</artifactId>
+			<version>0.35.0</version>
+		</dependency>
+
+		<!-- OpenAI Starter used to route traffic to Groq -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
+			<version>0.35.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
