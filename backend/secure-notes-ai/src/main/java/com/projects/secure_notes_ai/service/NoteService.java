@@ -2,11 +2,13 @@ package com.projects.secure_notes_ai.service;
 
 import com.projects.secure_notes_ai.dto.Notes.NoteRequest;
 import com.projects.secure_notes_ai.dto.Notes.NoteResponse;
+import com.projects.secure_notes_ai.dto.Notes.UpdateNoteRequest;
 import com.projects.secure_notes_ai.entity.Note;
 import com.projects.secure_notes_ai.repository.NoteRepository;
 import com.projects.secure_notes_ai.repository.UserRepository;
 import com.projects.secure_notes_ai.util.EncryptionUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.UUID;
@@ -61,7 +63,8 @@ public class NoteService {
                 savedNote.getSummary(),
                 savedNote.getKeywords(),
                 savedNote.getIsEncrypted(),
-                savedNote.getCreatedAt()
+                savedNote.getCreatedAt(),
+                savedNote.getUpdatedAt()
         );
     }
     // get notes
@@ -78,7 +81,8 @@ public class NoteService {
                             note.getSummary(),
                             note.getKeywords(),
                             note.getIsEncrypted(),
-                            note.getCreatedAt()
+                            note.getCreatedAt(),
+                            note.getUpdatedAt()
                     );
                 })
                 .collect(Collectors.toList());
@@ -97,9 +101,90 @@ public class NoteService {
                             note.getSummary(),
                             note.getKeywords(),
                             note.getIsEncrypted(),
-                            note.getCreatedAt()
+                            note.getCreatedAt(),
+                            note.getUpdatedAt()
                     );
                 })
                 .collect(Collectors.toList());
+    }
+    // update notes
+    public NoteResponse updateNotes(UpdateNoteRequest updateNoteRequest){
+        Note note = noteRepository.findById(updateNoteRequest.getNoteId())
+                .orElseThrow(() -> new RuntimeException("Note not found"));
+        if(!userRepository.existsById(updateNoteRequest.getUserId())){
+            throw new RuntimeException("User does not exist");
+        }
+        if(!note.getUser().getId().equals(updateNoteRequest.getUserId())){
+            throw new RuntimeException("Unauthorized: You do not own this note");
+        }
+        String newContent = updateNoteRequest.getContent();
+        note.setTitle(updateNoteRequest.getTitle());
+        boolean isSensitive = aiService.isNoteSensitive(newContent);
+        String summary = aiService.generateSummary(newContent);
+        List<String> keywords = aiService.extractKeywords(newContent);
+        String storedContent;
+        boolean isEncrypted;
+        if(isSensitive){
+            storedContent = encryptionUtil.encrypt(newContent);
+            isEncrypted = true;
+        }else{
+            storedContent = newContent;
+            isEncrypted = false;
+        }
+        note.setContent(storedContent);
+        note.setIsSensitive(isSensitive);
+        note.setIsEncrypted(isEncrypted);
+        note.setSummary(summary);
+        note.setKeywords(keywords);
+        Note updatedNote =  noteRepository.save(note);
+        return new NoteResponse(
+                updatedNote.getId(),
+                updatedNote.getTitle(),
+                newContent,
+                updatedNote.getSummary(),
+                updatedNote.getKeywords(),
+                updatedNote.getIsEncrypted(),
+                updatedNote.getCreatedAt(),
+                updatedNote.getUpdatedAt()
+        );
+    }
+    // delete a note
+    public void deleteNotes(@RequestParam UUID userId, @RequestParam UUID noteId){
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new RuntimeException("Note not found"));
+        if(!userRepository.existsById(userId)){
+            throw new RuntimeException("User does not exist");
+        }
+        if(!note.getUser().getId().equals(userId)){
+            throw new RuntimeException("Unauthorized: You do not own this note");
+        }
+        noteRepository.delete(note);
+    }
+    // get note securely
+    public NoteResponse getNoteByIdSecurely(UUID userId, UUID noteId){
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new RuntimeException("Note not found"));
+        if(!userRepository.existsById(userId)){
+            throw new RuntimeException("User does not exist");
+        }
+        if(!note.getUser().getId().equals(userId)){
+            throw new RuntimeException("Unauthorized: You do not own this note");
+        }
+        String decryptedContent = "";
+        if(note.getIsEncrypted()){
+            decryptedContent = encryptionUtil.decrypt(note.getContent());
+        }else{
+            decryptedContent = note.getContent();
+        }
+        return new NoteResponse(
+                note.getId(),
+                note.getTitle(),
+                decryptedContent,
+                note.getSummary(),
+                note.getKeywords(),
+                note.getIsEncrypted(),
+                note.getCreatedAt(),
+                note.getUpdatedAt()
+        );
     }
 }

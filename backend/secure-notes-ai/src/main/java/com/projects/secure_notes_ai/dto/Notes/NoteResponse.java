@@ -19,4 +19,5 @@ public class NoteResponse {
     private List<String> keywords;
     private Boolean isEncrypted;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
