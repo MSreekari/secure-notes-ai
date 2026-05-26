@@ -13,6 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/notes")
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*")
 public class NotesController {
     private final NoteService noteService;
     public NotesController(NoteService noteService) {
@@ -51,7 +52,7 @@ public class NotesController {
     @GetMapping("/search")
     public ResponseEntity<List<NoteResponse>> searchNotes(@RequestParam UUID userId, @RequestParam String keyword) {
         try{
-            List<NoteResponse> matchedNotes = noteService.serachNotes(userId, keyword);
+            List<NoteResponse> matchedNotes = noteService.searchNotes(userId, keyword);
             return ResponseEntity.ok(matchedNotes);
         }catch(Exception e){
             return ResponseEntity.badRequest().build();
@@ -59,7 +60,7 @@ public class NotesController {
     }
     /**
      * Endpoint to handle update post
-     * POST http://localhost:8080/api/notes/update
+     * PUT http://localhost:8080/api/notes/update
      */
     @PutMapping("/update")
     public ResponseEntity<NoteResponse> updateNotes(@RequestBody UpdateNoteRequest updateNoteRequest) {
@@ -72,7 +73,7 @@ public class NotesController {
     }
     /**
      * Endpoint to handle update post
-     * POST http://localhost:8080/api/notes/delete
+     * DELETE http://localhost:8080/api/notes/delete
      */
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteNotes(@RequestParam UUID userId, UUID noteId) {
@@ -88,7 +89,7 @@ public class NotesController {
      * POST http://localhost:8080/api/notes/view
      */
     @GetMapping("/view")
-    public ResponseEntity<NoteResponse> getNoteByIdSecurely(@RequestParam UUID noteId, @RequestParam UUID userId) {
+    public ResponseEntity<NoteResponse> getNoteByIdSecurely(@RequestParam UUID userId, @RequestParam UUID noteId) {
         try{
             NoteResponse response = noteService.getNoteByIdSecurely(userId, noteId);
             return ResponseEntity.ok(response);

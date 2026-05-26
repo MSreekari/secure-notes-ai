@@ -88,10 +88,14 @@ public class NoteService {
                 .collect(Collectors.toList());
     }
     // search notes
-    public List<NoteResponse> serachNotes(UUID userId, String keyword){
-        List<Note> notes = noteRepository.searchNotesByKeyword(userId, keyword);
+    public List<NoteResponse> searchNotes(UUID userId, String keyword){
+        List<Note> notes = noteRepository.findByUserIdAndTitleContainingIgnoreCaseOrUserIdAndSummaryContainingIgnoreCase(
+                userId, keyword,
+                userId, keyword
+        );
+
         return notes.stream()
-                .map( note -> {
+                .map(note -> {
                     String displayContent = note.getIsEncrypted() ? "Encypted" : note.getContent();
 
                     return new NoteResponse(

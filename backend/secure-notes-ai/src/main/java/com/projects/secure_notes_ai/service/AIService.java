@@ -21,7 +21,10 @@ public class AIService {
         if(content==null || content.trim().isEmpty()){
             return "Note is empty summary cannot be generated";
         }
-        String prompt = "Summarize the following text in one or two concise sentences. " +
+        String prompt = "\"You are a secure note summarization assistant. Summarize the following note text. \n" +
+                "CRITICAL SECURITY REQUIREMENT: If the text contains any passwords, API keys, credentials, \n" +
+                "or strict secrets, you MUST mask them completely using '[REDACTED]' or '********'. \n" +
+                "Do NOT include raw credentials in the summary or keywords under any circumstances.\" " +
                 "Do not include any introductory remarks—return ONLY the summary text:\n\n" + content;
         try{
             return chatModel.generate(prompt).trim();

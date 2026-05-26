@@ -1,0 +1,290 @@
+{
+  "info": {
+    "_postman_id": "d6390d82-5670-4374-96a8-476d05148609",
+    "name": "Secure-Notes-Application",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "36340148"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Signup Request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"John\",\r\n    \"email\": \"john@gmail.com\",\r\n    \"password\": \"SecurePasswordJohn123!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"john@gmail.com\",\r\n    \"password\": \"SecurePasswordJohn123!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notes",
+      "item": [
+        {
+          "name": "CREATE Note Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOiI4MzQ2YTI0OS1iMDQ3LTRjMzItOTNlNS0yYTE1OWU5MDdjOGIiLCJzdWIiOiJqb2huQGdtYWlsLmNvbSIsImlhdCI6MTc3OTc3NjY4NywiZXhwIjoxNzc5ODYzMDg3fQ.zWIpW3_ZA1joIQVeLFZhpgV1h8mok5SDwh1MWkWsU4UjEo21FBjKhAs4geDeD1ifzoVk_fcYVy0rqoUHgyAzig",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"My AWS Production Server Passwords\",\r\n    \"content\": \"Server-1 IP: 192.168.1.50, Root Password: SuperSecretCryptoKey2026!. Keep this locked down.\",\r\n    \"userId\": \"8346a249-b047-4c32-93e5-2a159e907c8b\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/notes/new",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "notes",
+                "new"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "READ Note Request",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Note Request",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOiI4MzQ2YTI0OS1iMDQ3LTRjMzItOTNlNS0yYTE1OWU5MDdjOGIiLCJzdWIiOiJqb2huQGdtYWlsLmNvbSIsImlhdCI6MTc3OTc3NjY4NywiZXhwIjoxNzc5ODYzMDg3fQ.zWIpW3_ZA1joIQVeLFZhpgV1h8mok5SDwh1MWkWsU4UjEo21FBjKhAs4geDeD1ifzoVk_fcYVy0rqoUHgyAzig",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"noteId\": \"63e93e55-d396-47e0-a868-23548fcd1a56\",\r\n    \"title\": \"My AWS Updated Production Server Passwords\",\r\n    \"content\": \"Server-1 IP: 192.168.1.50, Root Password: SecretCryptoKey2026!. Keep this locked down.\",\r\n    \"userId\": \"8346a249-b047-4c32-93e5-2a159e907c8b\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/notes/update",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "notes",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SEARCH Note Request",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOiI4MzQ2YTI0OS1iMDQ3LTRjMzItOTNlNS0yYTE1OWU5MDdjOGIiLCJzdWIiOiJqb2huQGdtYWlsLmNvbSIsImlhdCI6MTc3OTc3NjY4NywiZXhwIjoxNzc5ODYzMDg3fQ.zWIpW3_ZA1joIQVeLFZhpgV1h8mok5SDwh1MWkWsU4UjEo21FBjKhAs4geDeD1ifzoVk_fcYVy0rqoUHgyAzig",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/notes/search?userId=8346a249-b047-4c32-93e5-2a159e907c8b&keyword=server",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "notes",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "8346a249-b047-4c32-93e5-2a159e907c8b",
+                  "type": "text"
+                },
+                {
+                  "key": "keyword",
+                  "value": "server",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SECURE READ Note Request",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Note Request",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOiI4MzQ2YTI0OS1iMDQ3LTRjMzItOTNlNS0yYTE1OWU5MDdjOGIiLCJzdWIiOiJqb2huQGdtYWlsLmNvbSIsImlhdCI6MTc3OTc3NjY4NywiZXhwIjoxNzc5ODYzMDg3fQ.zWIpW3_ZA1joIQVeLFZhpgV1h8mok5SDwh1MWkWsU4UjEo21FBjKhAs4geDeD1ifzoVk_fcYVy0rqoUHgyAzig",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/notes/delete?userId=8346a249-b047-4c32-93e5-2a159e907c8b&noteId=a0c2d55b-8ba9-45d2-95f1-b0e974d716f9",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "notes",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "8346a249-b047-4c32-93e5-2a159e907c8b",
+                  "type": "text"
+                },
+                {
+                  "key": "noteId",
+                  "value": "a0c2d55b-8ba9-45d2-95f1-b0e974d716f9",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

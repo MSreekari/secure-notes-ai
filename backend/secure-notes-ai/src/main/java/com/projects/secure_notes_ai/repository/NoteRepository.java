@@ -16,12 +16,8 @@ public interface NoteRepository extends JpaRepository<Note, UUID> {
 
     List<Note> findByUser_IdAndIsEncryptedTrue(UUID userId);
 
-    @Query(value = """
-    SELECT *, ts_rank(search_vector, plainto_tsquery('english', :keyword)) AS rank
-    FROM notes
-    WHERE user_id = :userId
-      AND search_vector @@ plainto_tsquery('english', :keyword)
-    ORDER BY rank DESC
-    """, nativeQuery = true)
-    List<Note> searchNotesByKeyword(@Param("userId") UUID userId, @Param("keyword") String keyword);
+    List<Note> findByUserIdAndTitleContainingIgnoreCaseOrUserIdAndSummaryContainingIgnoreCase(
+            UUID userId1, String titleKeyword,
+            UUID userId2, String summaryKeyword
+    );
 }

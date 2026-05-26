@@ -16,7 +16,7 @@ public class NoteResponse {
     private String title;
     private String content;
     private String summary;
-    private List<String> keywords;
+    private List<String> keyword;
     private Boolean isEncrypted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
