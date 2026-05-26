@@ -39,7 +39,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    // 🔥 MAKE SURE THIS METHOD EXISTS EXACTLY AS WRITTEN BELOW 🔥
     public String extractEmail(String token) {
         return extractAllClaims(token).getSubject();
     }
