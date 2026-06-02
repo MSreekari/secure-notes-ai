@@ -1,4 +1,4 @@
-# Secure Notes Application with AI 
+# Secure Notes Application with Langchain
 
 A backend secure notes application with JWT-based authentication, AES encryption for data protection, and AI-powered sensitive data detection, built using React, Spring Boot, PostgreSQL, and LangChain.
 
